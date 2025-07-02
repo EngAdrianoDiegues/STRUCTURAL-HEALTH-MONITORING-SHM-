@@ -101,10 +101,10 @@ PAGET,DESL_NODE_PATH,TABL
 # Abre o arquivo de saída final
 with open(arquivo_saida, 'w') as f:
 
-    pasta = '\\Users\\GVA\\Desktop\\dico\\'
-    X = 1.0
+    pasta = 'C:\\Users\\GVA\\Desktop\\VETORES_MODAIS\\'
+    X = 0.1
     Y = 1.0
-    Espessura_do_defeito = 0
+    Espessura_do_defeito = 0.001
     Localizacao_do_defeito = 0
     Profundidade_do_defeito = 0
     i = 0
@@ -113,7 +113,7 @@ with open(arquivo_saida, 'w') as f:
     for w in range(1, 5):
         MODO_DE_VIBRACAO = w
 
-        nome_arquivo_saida = f"VETOR_MODAL_{MODO_DE_VIBRACAO}_{Localizacao_do_defeito}_{Profundidade_do_defeito}_{Espessura_do_defeito}"
+        nome_arquivo_saida = f"VETOR_MODAL_{MODO_DE_VIBRACAO}_{Localizacao_do_defeito}_{Profundidade_do_defeito}_{0}"
 
         codigo_sem_defeito = codigo_base.format(
             i=i,
@@ -133,12 +133,12 @@ with open(arquivo_saida, 'w') as f:
     # ===== Casos com defeito =====
     for w in range(1, 5):
         MODO_DE_VIBRACAO = w
-        for k in range(1, 5):
+        for k in range(1, 2):
             Espessura_do_defeito = 0.001 * k
-            for i in range(10, 100):
+            for i in range(1, 100, 2):
                 X = 0.01 * i
                 Localizacao_do_defeito = round(X * 100, 1)
-                for j in range(50, 99):
+                for j in range(50, 99, 1):
                     Y = 0.01 * j
                     Profundidade_do_defeito = round((1 - Y) * 100, 1)
 
