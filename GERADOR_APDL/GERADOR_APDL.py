@@ -98,14 +98,10 @@ PAGET,DESL_NODE_PATH,TABL
 ! Espessura do defeito = {Espessura_do_defeito}
 ! ----------------------------
 """
-
 # Abre o arquivo de saída final
 with open(arquivo_saida, 'w') as f:
 
-    MODO_DE_VIBRACAO = 1
     pasta = '\\Users\\GVA\\Desktop\\dico\\'
-
-    # ===== Caso sem defeito =====
     X = 1.0
     Y = 1.0
     Espessura_do_defeito = 0
@@ -113,39 +109,49 @@ with open(arquivo_saida, 'w') as f:
     Profundidade_do_defeito = 0
     i = 0
     j = 0
-    nome_arquivo_saida = f"sem_defeito"
 
-    codigo_sem_defeito = codigo_base.format(
-        i=i, X=X, Y=Y, j=j,
-        MODO_DE_VIBRACAO=MODO_DE_VIBRACAO,
-        Localizacao_do_defeito=Localizacao_do_defeito,
-        Profundidade_do_defeito=Profundidade_do_defeito,
-        Espessura_do_defeito=Espessura_do_defeito,
-        pasta = pasta,
-        nome_arquivo_saida=nome_arquivo_saida
-    )
-    f.write(codigo_sem_defeito)
+    for w in range(1, 5):
+        MODO_DE_VIBRACAO = w
+
+        nome_arquivo_saida = f"VETOR_MODAL_{MODO_DE_VIBRACAO}_{Localizacao_do_defeito}_{Profundidade_do_defeito}_{Espessura_do_defeito}"
+
+        codigo_sem_defeito = codigo_base.format(
+            i=i,
+            X=X,
+            Y=Y,
+            j=j,
+            MODO_DE_VIBRACAO=MODO_DE_VIBRACAO,
+            Localizacao_do_defeito=Localizacao_do_defeito,
+            Profundidade_do_defeito=Profundidade_do_defeito,
+            Espessura_do_defeito=Espessura_do_defeito,
+            pasta=pasta,
+            nome_arquivo_saida=nome_arquivo_saida
+        )
+
+        f.write(codigo_sem_defeito + '\n')
 
     # ===== Casos com defeito =====
-    for k in range(1, 5):
-        Espessura_do_defeito = 0.001 * k
-        for i in range(10, 100):
-            X = 0.01 * i
-            Localizacao_do_defeito = round(X * 100, 1)
-            for j in range(50, 99):
-                Y = 0.01 * j
-                Profundidade_do_defeito = round((1 - Y) * 100, 1)
+    for w in range(1, 5):
+        MODO_DE_VIBRACAO = w
+        for k in range(1, 5):
+            Espessura_do_defeito = 0.001 * k
+            for i in range(10, 100):
+                X = 0.01 * i
+                Localizacao_do_defeito = round(X * 100, 1)
+                for j in range(50, 99):
+                    Y = 0.01 * j
+                    Profundidade_do_defeito = round((1 - Y) * 100, 1)
 
-                nome_arquivo_saida = f"VETOR_MODAL_{MODO_DE_VIBRACAO}_{Localizacao_do_defeito}_{Profundidade_do_defeito}_{Espessura_do_defeito}"
-                codigo_var = codigo_base.format(
-                    i=i, X=round(X, 2), Y=round(Y, 2), j=j,
-                    MODO_DE_VIBRACAO=MODO_DE_VIBRACAO,
-                    Localizacao_do_defeito=Localizacao_do_defeito,
-                    Profundidade_do_defeito=Profundidade_do_defeito,
-                    Espessura_do_defeito=Espessura_do_defeito,
-                    pasta = pasta,
-                    nome_arquivo_saida=nome_arquivo_saida
-                )
-                f.write(codigo_var)
+                    nome_arquivo_saida = f"VETOR_MODAL_{MODO_DE_VIBRACAO}_{Localizacao_do_defeito}_{Profundidade_do_defeito}_{Espessura_do_defeito}"
+                    codigo_var = codigo_base.format(
+                        i=i, X=round(X, 2), Y=round(Y, 2), j=j,
+                        MODO_DE_VIBRACAO=MODO_DE_VIBRACAO,
+                        Localizacao_do_defeito=Localizacao_do_defeito,
+                        Profundidade_do_defeito=Profundidade_do_defeito,
+                        Espessura_do_defeito=Espessura_do_defeito,
+                        pasta = pasta,
+                        nome_arquivo_saida=nome_arquivo_saida
+                    )
+                    f.write(codigo_var)
 
 print(f"Arquivo com todos os casos salvo em: {arquivo_saida}")
